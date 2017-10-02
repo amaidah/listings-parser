@@ -1,7 +1,7 @@
 {
-  "name": "mehn-es6-simple-boilerplate",
+  "name": "listings-parser",
   "version": "1.0.0",
-  "description": "MEHN ES6 node and client environment w/ sass, handlebars",
+  "description": "parse and format food listings",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,12 +15,18 @@
     "start": "npm run build && node dist/app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Andrew Maidah",
   "license": "MIT",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/amaidah/listings-parser.git"
+  },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.1",
     "express-handlebars": "^3.0.0",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "request": "^2.83.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
