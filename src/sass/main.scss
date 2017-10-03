@@ -1,7 +1,15 @@
-div {
-  background: navajowhite;
+.index-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-  &:hover {
-    background: plum;
-  }
+.index-form {
+  flex: 1 0 auto;
+  max-width: 700px;
+}
+
+.index-input {
+  flex: 1 0 auto;
 }
