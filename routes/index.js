@@ -3,6 +3,9 @@ import request from 'request';
 import fs from 'fs';
 import cheerio from 'cheerio';
 
+// util
+import formatAddress from '../lib/formatAddress';
+
 const router = express.Router();
 
 const readTestFile = (file, cb) => {
@@ -17,8 +20,10 @@ router.get('/', (req, res, next) => {
 
 router.get('/request', (req, res, next) => {
   const { val } = req.query;
-  const resObj = {};
-  resObj.url = `${val}`;
+  const resObj = {
+    url: `${val}`,
+    parsed: {},
+  };
 
   // request(val, (error, response, body) => {
   //   resObj.body = body;
@@ -29,21 +34,47 @@ router.get('/request', (req, res, next) => {
   //   });
 
   readTestFile('listing.html', file => {
-    resObj.parse = {};
+    let parsed = {};
 
     // load html
-    let ch = cheerio.load(file, { ignoreWhiteSpace: true });
+    let ch = cheerio.load(file, { normalizeWhitespace: true });
 
     //start parse
-    let full_name = ch('.biz-page-title').html();
-    resObj.parse.full_name = full_name.trim();
+    let full_name = ch('.biz-page-title').html().trim();
+    parsed.full_name = full_name;
+    let budget = ch('.business-attribute, .price-range').html().trim();
+    parsed.budget = budget.length;
+    let phone_number = ch('.biz-phone').html().trim();
+    parsed.phone_number = phone_number.replace(/\D+/g, "");
 
-    let budget = ch('.business-attribute, .price-range').html();
-    resObj.parse.budget = budget.length;
+    let address = ch('.street-address > address').html();
+    formatAddress(address, formattedAddress => {
+      parsed.address = formattedAddress;
+    });
 
-    let phone_number = ch('.biz-phone').html();
-    resObj.parse.phone_number = phone_number.replace(/\D+/g, "");
+    // website
+    let website = ch('.biz-website > a').html();
+    if (website !== null) {
+      parsed.website = website;
+    }
 
+    // category
+    let categories = ch('.category-str-list').children().length;
+    console.log('categories: ***************', categories);
+
+    // attempt 2
+    let cat = ch('.category-str-list').children();
+    console.log('cat length: ', cat.length);
+
+    for (let i = 0; i < cat.length; i++) {
+      console.log(cat.eq(i).html())
+    }
+    // ^^^^^^^^^^^^^^^^^^^^^ stops work here
+    cat.each( function(i) {
+      console.log( 'going through: ', ch(this).text() );
+    })
+
+    resObj.parsed = parsed;
     res.send(resObj);
   })
 
