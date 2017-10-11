@@ -34,6 +34,7 @@ router.get('/request', (req, res, next) => {
   //   });
 
   readTestFile('listing.html', file => {
+    // parsed data object
     let parsed = {};
 
     // load html
@@ -58,11 +59,7 @@ router.get('/request', (req, res, next) => {
       parsed.website = website;
     }
 
-    // category
-    let categories = ch('.category-str-list').children().length;
-    console.log('categories: ***************', categories);
-
-    // attempt 2
+    // categories
     let cat = ch('.category-str-list').children();
     console.log('cat length: ', cat.length);
 
@@ -71,7 +68,7 @@ router.get('/request', (req, res, next) => {
     }
     // ^^^^^^^^^^^^^^^^^^^^^ stops work here
     cat.each( function(i) {
-      console.log( 'going through: ', ch(this).text() );
+      console.log( 'going through: ', ch(this).html(), i );
     })
 
     resObj.parsed = parsed;

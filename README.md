@@ -1,6 +1,4 @@
-Simple boilerplate for MEHN apps in a full ES6 environment
-- Uses only package.json scripts
-- Must have node, npm, sass installed
+# listings-parser
 
 ### Getting Started
 
@@ -17,6 +15,7 @@ Serve production
 
 Serve dev server
 - `npm run dev`
+- navigate to `http://localhost:3030`
 
 #### Issues
 
