@@ -5,6 +5,9 @@ import cheerio from 'cheerio';
 
 // util
 import formatAddress from '../lib/formatAddress';
+import getDataBizTable from '../lib/getDataBizTable';
+import formatSeating from '../lib/formatSeating';
+import validate from '../lib/validate';
 
 const router = express.Router();
 
@@ -34,6 +37,8 @@ router.get('/request', (req, res, next) => {
   //   });
 
   readTestFile('listing.html', file => {
+    // re-factor to modules******
+
     // parsed data object
     let parsed = {};
 
@@ -41,24 +46,21 @@ router.get('/request', (req, res, next) => {
     let ch = cheerio.load(file, { normalizeWhitespace: true });
 
     // start parse
-    let full_name = ch('.biz-page-title').html().trim();
-    parsed.full_name = full_name;
-    let budget = ch('.business-attribute, .price-range').html().trim();
-    parsed.budget = budget.length;
-    let phone_number = ch('.biz-phone').html().trim();
-    parsed.phone_number = phone_number.replace(/\D+/g, "");
+    const full_name = ch('.biz-page-title').html().trim();
+    parsed.full_name = validate(full_name);
+    const budget = ch('.business-attribute, .price-range').html().trim();
+    parsed.budget = validate(budget.length);
+    const phone_number = ch('.biz-phone').html().trim();
+    parsed.phone_number = validate(phone_number).replace(/\D+/g, "");
 
     // address
-    let address = ch('.street-address > address').html();
-    formatAddress(address, formattedAddress => {
-      parsed.address = formattedAddress;
-    });
+    const address = ch('.street-address > address').html();
+    const formattedAddress = formatAddress(address);
+    console.log('index.js address', formattedAddress);
 
     // website
     let website = ch('.biz-website > a').html();
-    if (website !== null) {
-      parsed.website = website;
-    }
+    parsed.website = validate(website);
 
     // categories
     const cat = ch('.category-str-list').children();
@@ -71,25 +73,14 @@ router.get('/request', (req, res, next) => {
     parsed.primary = catArr[0] ? catArr[0] : null;
     parsed.secondary = catArr[1] ? catArr[1] : null;
 
-    // credit card check
+    // get side business data table
     let bizDataTable = ch('.attribute-key').toArray();
-    let cc_accepted = null;
 
-    // use es6 for.. of to allow break on first match
-    for (let node of bizDataTable) {
-      if (ch(node).html().trim() === 'Accepts Credit Cards') {
-        // save closest 'dl' parent to get access to inner text nodes
-        cc_accepted = ch(node).closest('dl');
-        break;
-      }
-    }
+    // credit card
+    parsed.cc_accepted = getDataBizTable(bizDataTable, 'Accepts Credit Cards', ch);
 
-    // validate cc_accepted exists and 'dd' child exists
-    if (cc_accepted !== null && cc_accepted.children('dd') !== null) {
-      // get value from 'dd' child, trim, and store
-      cc_accepted = cc_accepted.children('dd').text().trim();
-    }
-    parsed.cc_accepted = cc_accepted;
+    // seating
+    parsed.seating = formatSeating(getDataBizTable(bizDataTable, 'Outdoor Seating', ch));
 
     resObj.parsed = parsed;
     res.send(resObj);
