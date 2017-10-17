@@ -8,6 +8,7 @@ import formatAddress from '../lib/formatAddress';
 import getDataBizTable from '../lib/getDataBizTable';
 import formatSeating from '../lib/formatSeating';
 import validate from '../lib/validate';
+import getTime from '../lib/getTime';
 
 const router = express.Router();
 
@@ -87,7 +88,7 @@ router.get('/request', (req, res, next) => {
     parsed.seating = formatSeating(getDataBizTable(bizDataTable, 'Outdoor Seating', ch));
 
     // time
-
+    getTime(ch);
 
     resObj.parsed = parsed;
     res.send(resObj);

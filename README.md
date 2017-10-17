@@ -19,7 +19,7 @@ Serve dev server
 - full_name
 - short_name (default = null)
 - phone_number (stripped of formatting [no parenthesis, spaces, dashes])
-- website (stripped of http://www)
+- website (stripped of www)
 - form (default = null)
 - description (default = null)
 - seating (default = 'Indoors', else 'Mixed')
