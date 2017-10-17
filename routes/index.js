@@ -55,8 +55,12 @@ router.get('/request', (req, res, next) => {
 
     // address
     const address = ch('.street-address > address').html();
-    const formattedAddress = formatAddress(address);
-    console.log('index.js address', formattedAddress);
+    const { one, two, city, state, zip } = formatAddress(address);
+    parsed.address_one = one;
+    parsed.address_two = two;
+    parsed.address_city = city;
+    parsed.address_state = state;
+    parsed.address_zip = zip;
 
     // website
     let website = ch('.biz-website > a').html();
@@ -81,6 +85,9 @@ router.get('/request', (req, res, next) => {
 
     // seating
     parsed.seating = formatSeating(getDataBizTable(bizDataTable, 'Outdoor Seating', ch));
+
+    // time
+
 
     resObj.parsed = parsed;
     res.send(resObj);
