@@ -8,7 +8,8 @@ import formatAddress from '../lib/formatAddress';
 import getDataBizTable from '../lib/getDataBizTable';
 import formatSeating from '../lib/formatSeating';
 import validate from '../lib/validate';
-import getTime from '../lib/getTime';
+import getTimes from '../lib/getTimes';
+import formatTimes from '../lib/formatTimes';
 
 const router = express.Router();
 
@@ -40,7 +41,6 @@ router.get('/request', (req, res, next) => {
   readTestFile('listing.html', file => {
     // re-factor to modules******
 
-    // parsed data object
     let parsed = {};
 
     // load html
@@ -78,7 +78,7 @@ router.get('/request', (req, res, next) => {
     parsed.primary = catArr[0] ? catArr[0] : null;
     parsed.secondary = catArr[1] ? catArr[1] : null;
 
-    // get side business data table
+    // load side business data table
     let bizDataTable = ch('.attribute-key').toArray();
 
     // credit card
@@ -88,10 +88,13 @@ router.get('/request', (req, res, next) => {
     parsed.seating = formatSeating(getDataBizTable(bizDataTable, 'Outdoor Seating', ch));
 
     // time
-    getTime(ch);
-
-    resObj.parsed = parsed;
-    res.send(resObj);
+    getTimes(ch, (convertedTimes) => {
+      // format military time to daily ranges
+      formatTimes(convertedTimes, parsed, (parsed) => {
+        resObj.parsed = parsed;
+        res.send(resObj);
+      })
+    });
   })
 
   // })
