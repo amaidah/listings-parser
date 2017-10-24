@@ -79,3 +79,6 @@ No brew? https://brew.sh/
 No git cli?
 - try to run `git`
 - should prompt an install if not already installed
+
+No Rollup?
+- npm install --global rollup
