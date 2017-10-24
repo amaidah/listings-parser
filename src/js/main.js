@@ -1,11 +1,10 @@
-import speak from './viewRecent.js';
-
 const $indexForm = document.querySelector('.index-form'),
-      $indexInput = document.querySelector('#index-input');
+      $indexInput = document.querySelector('#index-input'),
+      $recentBtn = document.querySelector('.recent-btn');
 
-speak();
+let mostRecent;
 
-const handleFormSubmit = evt => {
+const handleFormSubmit = (evt) => {
   evt.preventDefault();
   let val = $indexInput.value;
 
@@ -15,7 +14,9 @@ const handleFormSubmit = evt => {
     .end( (err, res) => {
       if (!err && res.status === 200) {
         console.log(res.body);
-
+        mostRecent = res.body;
+        $recentBtn.addEventListener('click', handleRecentBtn);
+        $recentBtn.style.opacity = 1;
       }
     })
 
@@ -23,3 +24,13 @@ const handleFormSubmit = evt => {
 }
 
 $indexForm.addEventListener('submit', handleFormSubmit);
+
+const handleRecentBtn = (evt) => {
+  let url = window.location.origin;
+  let data = JSON.stringify(mostRecent);
+  let tab = window.open();
+  tab.document.body.innerHTML = data;
+  tab.document.close();
+  $recentBtn.style.opacity = 0;
+  $recentBtn.removeEventListener('click', handleRecentBtn);
+}

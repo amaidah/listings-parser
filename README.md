@@ -9,6 +9,7 @@ Parses and allows for export data
 
 Serve production
 - `npm run start`
+- navigate to `http://localhost:3030`
 
 Serve dev server
 - `npm run dev`
@@ -74,3 +75,7 @@ No npm?
 No brew? https://brew.sh/
 - `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 - `brew -v`
+
+No git cli?
+- try to run `git`
+- should prompt an install if not already installed
