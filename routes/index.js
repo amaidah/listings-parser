@@ -13,12 +13,6 @@ import formatTimes from '../lib/formatTimes';
 
 const router = express.Router();
 
-const readTestFile = (file, cb) => {
-  fs.readFile(file, 'utf8', (err, data) => {
-    cb(data);
-  })
-}
-
 router.get('/', (req, res, next) => {
   res.render('index');
 })
@@ -30,21 +24,12 @@ router.get('/request', (req, res, next) => {
     parsed: {},
   };
 
-  // request(val, (error, response, body) => {
-  //   resObj.body = body;
-
-  //   fs.writeFile('listing.html', body, (err) => {
-  //     if (err) throw err;
-  //     console.log('The file has been saved!');
-  //   });
-
-  readTestFile('listing.html', file => {
+  request(val, (error, response, body) => {
     // re-factor to modules******
-
     let parsed = {};
 
     // load html
-    let ch = cheerio.load(file, { normalizeWhitespace: true });
+    let ch = cheerio.load(body, { normalizeWhitespace: true });
 
     // start parse
     const full_name = ch('.biz-page-title').html().trim();
@@ -96,9 +81,6 @@ router.get('/request', (req, res, next) => {
       })
     });
   })
-
-  // })
-
 })
 
 

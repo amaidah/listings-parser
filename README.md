@@ -2,6 +2,14 @@
 
 Parses and allows for export data
 
+### Technology
+
+JavaScript ES6 | Node | Express | Handlebars
+
+HTML5 | CSS3 | Bootstrap 4 | SCSS
+
+json2csv | superagent | Rollup
+
 ### Getting Started
 
 - `git clone <repo>`

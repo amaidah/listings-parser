@@ -18,9 +18,13 @@
   cursor: pointer;
 }
 
-.recent-btn {
+.btn-wrap {
   position: absolute;
   margin-top: 50px;
-  // display: none;
   opacity: 0;
+}
+
+.text-wrap {
+  position: absolute;
+  margin-top: -40px;
 }

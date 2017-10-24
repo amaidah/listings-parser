@@ -22,9 +22,11 @@
     "url": "https://github.com/amaidah/listings-parser.git"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.1",
     "express-handlebars": "^3.0.0",
+    "json2csv": "^3.11.5",
     "morgan": "^1.9.0",
     "request": "^2.83.0"
   },

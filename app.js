@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import bodyParser from 'body-parser';
 import path from 'path'
 import hbs from 'express-handlebars';
 
@@ -12,11 +13,15 @@ app.set('view engine', 'hbs');
 
 // middleware
 app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/public`));
 
 // routes
 import index from './routes/index';
+import download from './routes/download';
 app.use('/', index);
+app.use('/download', download);
 
 // server
 const port = process.env.PORT || 3030;

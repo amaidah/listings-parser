@@ -3,6 +3,7 @@ node_modules/
 .sass-cache/
 public/
 
-# listing.html
+listing.html
+3noms-data.csv
 
 .env
