@@ -1,3 +1,5 @@
+@import 'mixins';
+
 .index-wrapper {
   display: flex;
   justify-content: center;
@@ -20,11 +22,39 @@
 
 .btn-wrap {
   position: absolute;
-  margin-top: 50px;
+  margin-top: 60px;
   opacity: 0;
+  @include transition(all .25s ease);
 }
 
 .text-wrap {
   position: absolute;
   margin-top: -40px;
+  @include transition(all .25s ease);
 }
+
+// loader
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #868e96;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  @include animation(spin 1s linear infinite);
+}
+
+.loader-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include transition(all .25s ease);
+  height: 100%;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background: #d3d3d3;
+  opacity: 0;
+  z-index: 0;
+}
+
+@include spin-keyframes(spin, 0deg, 360deg);

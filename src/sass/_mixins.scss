@@ -1,0 +1,34 @@
+@mixin transition($transition) {
+  -webkit-transition: $transition;
+     -moz-transition: $transition;
+      -ms-transition: $transition;
+       -o-transition: $transition;
+          transition: $transition;
+}
+
+@mixin animation($animation) {
+  -webkit-animation: $animation;
+     -moz-animation: $animation;
+      -ms-animation: $animation;
+       -o-animation: $animation;
+          animation: $animation;
+}
+
+@mixin spin-keyframes($name, $start, $end) {
+  @-webkit-keyframes #{$name} {
+    0% { -webkit-transform: rotate($start); }
+    100% { -webkit-transform: rotate($end); }
+  }
+  @-moz-keyframes #{$name} {
+    0% { -moz-transform: rotate($start); }
+    100% { -moz-transform: rotate($end); }
+  }
+  @-o-keyframes #{$name} {
+    0% { -o-transform: rotate($start); }
+    100% { -o-transform: rotate($end); }
+  }
+  @keyframes #{$name} {
+    0% { transform: rotate($start); }
+    100% { transform: rotate($end); }
+  }
+}

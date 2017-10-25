@@ -1,3 +1,5 @@
+import { showLoader, hideLoader } from './utils/loader';
+
 const $indexForm = document.querySelector('.index-form'),
       $indexInput = document.querySelector('#index-input'),
       $txtMsg = document.querySelector('.text-msg'),
@@ -11,11 +13,17 @@ const handleFormSubmit = (evt) => {
   evt.preventDefault();
   let val = $indexInput.value;
 
+  showLoader();
+
   superagent
     .get('/request')
     .query({ val })
     .end( (err, res) => {
-      if (!err && res.status === 200) {
+      hideLoader();
+      $indexInput.value = '';
+
+      // success
+      if (!err && res.status === 200 && res.body.status !== 404) {
         mostRecent = res.body;
 
         // only add a parse listener after something has parsed
@@ -26,9 +34,10 @@ const handleFormSubmit = (evt) => {
         // remove msg on new parse
         $txtMsg.textContent = '';
       }
+      if (res.body.status === 404) {
+        $txtMsg.textContent = '404';
+      }
     })
-
-  $indexInput.value = '';
 }
 
 $indexForm.addEventListener('submit', handleFormSubmit);

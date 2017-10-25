@@ -7,7 +7,7 @@ import cheerio from 'cheerio';
 import formatAddress from '../lib/formatAddress';
 import getDataBizTable from '../lib/getDataBizTable';
 import formatSeating from '../lib/formatSeating';
-import validate from '../lib/validate';
+import { validateString } from '../lib/validate';
 import getTimes from '../lib/getTimes';
 import formatTimes from '../lib/formatTimes';
 
@@ -19,12 +19,24 @@ router.get('/', (req, res, next) => {
 
 router.get('/request', (req, res, next) => {
   const { val } = req.query;
+
+  if (!val) {
+    res.json({status: 404})
+    return;
+  }
+
   const resObj = {
     url: `${val}`,
     parsed: {},
+    status: 200,
   };
 
   request(val, (error, response, body) => {
+    if (error) {
+      res.json({status: 404});
+      return;
+    }
+
     // re-factor to modules******
     let parsed = {};
 
@@ -32,12 +44,16 @@ router.get('/request', (req, res, next) => {
     let ch = cheerio.load(body, { normalizeWhitespace: true });
 
     // start parse
-    const full_name = ch('.biz-page-title').html().trim();
-    parsed.full_name = validate(full_name);
-    const budget = ch('.business-attribute, .price-range').html().trim();
-    parsed.budget = validate(budget.length);
-    const phone_number = ch('.biz-phone').html().trim();
-    parsed.phone_number = validate(phone_number).replace(/\D+/g, "");
+    const full_name = ch('.biz-page-title').html();
+    parsed.full_name = validateString(full_name)
+
+    const budget = ch('.business-attribute, .price-range').html();
+    parsed.budget = validateString(budget.length);
+
+    const phone_number = ch('.biz-phone');
+    parsed.phone_number = validateString(phone_number)
+      ? validateString(phone_number).replace(/\D+/g, "")
+      : null;
 
     // address
     const address = ch('.street-address > address').html();
@@ -50,7 +66,7 @@ router.get('/request', (req, res, next) => {
 
     // website
     let website = ch('.biz-website > a').html();
-    parsed.website = validate(website);
+    parsed.website = validateString(website);
 
     // categories
     const cat = ch('.category-str-list').children();
