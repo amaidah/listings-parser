@@ -10,7 +10,8 @@ import formatSeating from '../lib/formatSeating';
 import {
   validateString,
   validateUrl,
-  validate, } from '../lib/validate';
+  validate,
+} from '../lib/validate';
 import getTimes from '../lib/getTimes';
 import formatTimes from '../lib/formatTimes';
 import getRatingsCount from '../lib/getRatingsCount';
