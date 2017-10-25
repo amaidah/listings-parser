@@ -20,7 +20,6 @@ const downloadFile = (file, callback) => {
 router.post('/', (req, res, next) => {
   const data = [ req.body.parsed ];
   const fields = order;
-
   const csv = json2csv({
     data,
     fields,

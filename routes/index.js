@@ -44,7 +44,7 @@ router.get('/request', (req, res, next) => {
     let ch = cheerio.load(body, { normalizeWhitespace: true });
 
     // start parse
-    const full_name = ch('.biz-page-title').html();
+    const full_name = ch('.biz-page-title').text();
     parsed.full_name = validateString(full_name)
 
     const budget = ch('.business-attribute, .price-range').html();
