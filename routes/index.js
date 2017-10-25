@@ -7,7 +7,7 @@ import cheerio from 'cheerio';
 import formatAddress from '../lib/formatAddress';
 import getDataBizTable from '../lib/getDataBizTable';
 import formatSeating from '../lib/formatSeating';
-import { validateString } from '../lib/validate';
+import { validateString, validateUrl } from '../lib/validate';
 import getTimes from '../lib/getTimes';
 import formatTimes from '../lib/formatTimes';
 import getRatingsCount from '../lib/getRatingsCount';
@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/request', (req, res, next) => {
-  const { val } = req.query;
+  const { val } = validateUrl(req.query);
 
   if (!val) {
     res.json({status: 404})

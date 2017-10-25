@@ -26,6 +26,17 @@ Serve dev server
 - `npm run dev`
 - navigate to `http://localhost:3030`
 
+### Use
+
+1) Enter a yelp url of a restaurant you want to parse
+- `https://www.yelp.com/biz/din-tai-fung-arcadia-3`
+- `https://www.yelp.com/biz/din-tai-fung-arcadia-3?page_src=related_bizes`
+  - Parser will automatically strip everything following a query `?`
+
+2) Click on options buttons to review data
+
+3) Send feedback/errors to a.maidah@gmail.com or Github issues
+
 ### Output
 
 - full_name
@@ -48,6 +59,11 @@ Serve dev server
 - cc_accepted ('Yes'/'No')
 - budget (dollar signs as numeral string: '2')
 - time (converts to military time, read below)
+- 1_star (total 1 star review distribution count)
+- 2_star
+- 3_star
+- 4_star
+- 5_star
 
 #### Time Conversion
 
