@@ -7,7 +7,10 @@ import cheerio from 'cheerio';
 import formatAddress from '../lib/formatAddress';
 import getDataBizTable from '../lib/getDataBizTable';
 import formatSeating from '../lib/formatSeating';
-import { validateString, validateUrl } from '../lib/validate';
+import {
+  validateString,
+  validateUrl,
+  validate, } from '../lib/validate';
 import getTimes from '../lib/getTimes';
 import formatTimes from '../lib/formatTimes';
 import getRatingsCount from '../lib/getRatingsCount';
@@ -19,7 +22,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/request', (req, res, next) => {
-  const { val } = validateUrl(req.query);
+  const val = validateUrl(req.query.val);
 
   if (!val) {
     res.json({status: 404})
@@ -49,9 +52,9 @@ router.get('/request', (req, res, next) => {
     parsed.full_name = validateString(full_name)
 
     const budget = ch('.business-attribute, .price-range').html();
-    parsed.budget = validateString(budget.length);
+    parsed.budget = validate(budget.length);
 
-    const phone_number = ch('.biz-phone');
+    const phone_number = ch('.biz-phone').html();
     parsed.phone_number = validateString(phone_number)
       ? validateString(phone_number).replace(/\D+/g, "")
       : null;
