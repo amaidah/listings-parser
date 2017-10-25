@@ -10,6 +10,7 @@ import formatSeating from '../lib/formatSeating';
 import { validateString } from '../lib/validate';
 import getTimes from '../lib/getTimes';
 import formatTimes from '../lib/formatTimes';
+import getRatingsCount from '../lib/getRatingsCount';
 
 const router = express.Router();
 
@@ -87,6 +88,13 @@ router.get('/request', (req, res, next) => {
 
     // seating
     parsed.seating = formatSeating(getDataBizTable(bizDataTable, 'Outdoor Seating', ch));
+
+    // ratings distribution
+    const ratingsTable = ch('.histogram--alternating.histogram--large').html();
+    const ratingsCount = getRatingsCount(ratingsTable, ch);
+
+    // es6 copy object values into parsed
+    parsed = Object.assign(parsed, ratingsCount);
 
     // time
     getTimes(ch, (convertedTimes) => {
