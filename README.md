@@ -1,6 +1,9 @@
 # listings-parser
 
-Parses and allows for export data
+This is a tool to automate gathering of basic data from single restaurant listings for a data science project. As a lightweight tool that avoids the need for a formal API interaction, and as a practice project for scraping, parsing, and converting data, this project is not intended for crawling/scraping on a scaled basis.
+
+Global Dependencies:
+- Sass, Node, NPM, Rollup
 
 ### Technology
 
@@ -63,9 +66,3 @@ Daily format:
 - mon_hours_end_2
 - mon_hours_start_3
 - mon_hours_end_3
-
-#### Issues
-
-Dependencies:
-
-Sass, Node, NPM, Rollup
