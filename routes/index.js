@@ -61,7 +61,7 @@ router.get('/request', (req, res, next) => {
       : null;
 
     // address
-    const address = ch('.street-address > address').html();
+    const address = ch('.map-box-address').find(ch('address')).html();
     const { one, two, city, state, zip } = formatAddress(address);
     parsed.address_one = one;
     parsed.address_two = two;
